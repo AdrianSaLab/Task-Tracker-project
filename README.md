@@ -48,3 +48,7 @@ Tasks with past due dates are counted as missed unless completed. Data is stored
 - HTML
 - CSS
 - Vanilla JavaScript
+
+## AI Use Disclosure
+
+AI tools, such as ChatGPT, were used as a learning and development aid during this project. They helped with understanding concepts, troubleshooting code, and improving documentation. All AI-generated suggestions were reviewed, tested, and modified as needed to fit the project's requirements. The final implementation and decisions were reviewed by the developer.
