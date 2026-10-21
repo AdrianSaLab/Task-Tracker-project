@@ -1,0 +1,133 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#071719">
+    <title>Task Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" aria-label="Main navigation">
+            <a class="brand" href="#dashboard" aria-label="Task Tracker home">Task Tracker</a>
+            <nav class="nav-list">
+                <button class="nav-item active" data-view="dashboard" aria-current="page"><span
+                        class="nav-icon home-icon" aria-hidden="true">&#8962;</span>Dashboard</button>
+                <button class="nav-item" data-view="important-task"><span class="nav-icon"
+                        aria-hidden="true">&#9733;</span>Important task</button>
+                <button class="nav-item" data-view="calendar"><span class="nav-icon"
+                        aria-hidden="true">&#9636;</span>Calendar</button>
+            </nav>
+        </aside>
+        <main class="main-area">
+            <header class="topbar">
+                <div class="date-heading"><span class="eyebrow" id="date-label">Current date</span>
+                    <p><span aria-hidden="true">&#9638;</span> <time id="current-date"></time></p>
+                </div>
+                <button class="primary-button add-task-button" id="add-task-button"><span aria-hidden="true">+</span>
+                    Add task</button>
+            </header>
+            <div class="page-content">
+                <section class="summary-grid" aria-label="Task summary">
+                    <article class="summary-card total-card">
+                        <h2>Total Tasks</h2>
+                        <p id="total-count">0</p>
+                    </article>
+                    <article class="summary-card pending-card">
+                        <h2>Pending</h2>
+                        <p id="pending-count">0</p>
+                    </article>
+                    <article class="summary-card missed-card">
+                        <h2>Missed</h2>
+                        <p id="missed-count">0</p>
+                    </article>
+                    <article class="summary-card completed-card">
+                        <h2>Completed</h2>
+                        <p id="completed-count">0</p>
+                    </article>
+                </section>
+                <section class="task-panel" aria-label="Tasks">
+                    <div class="list-wrap">
+                        <div class="view-heading">
+                            <div>
+                                <p class="eyebrow" id="view-kicker">YOUR WORKSPACE</p>
+                                <h1 id="view-title">My tasks</h1>
+                            </div><button class="primary-button mobile-add" id="mobile-add-task">+</button>
+                        </div>
+                        <div class="toolbar">
+                            <div class="tabs" role="tablist" aria-label="Filter tasks">
+                                <button class="tab active" data-filter="all" role="tab" aria-selected="true">All tasks
+                                    <span id="all-tab-count">0</span></button>
+                                <button class="tab" data-filter="active" role="tab" aria-selected="false">Active <span
+                                        id="active-tab-count">0</span></button>
+                                <button class="tab" data-filter="completed" role="tab" aria-selected="false">Completed
+                                    <span id="completed-tab-count">0</span></button>
+                            </div>
+                            <label class="sort-control"><span aria-hidden="true">&#8597;</span><span
+                                    class="sort-label">Sort</span><select id="sort-select" aria-label="Sort tasks">
+                                    <option value="due-asc">Due date</option>
+                                    <option value="due-desc">Latest due</option>
+                                    <option value="created-desc">Recently added</option>
+                                </select><span aria-hidden="true">&#8964;</span></label>
+                        </div>
+                        <div class="task-list" id="task-list" aria-live="polite"></div>
+                        <div class="list-footer"><span id="remaining-label">0 tasks left</span>
+                            <div class="progress-summary"><span id="progress-label">0 of 0 completed</span>
+                                <div class="progress-track" role="progressbar" aria-label="Tasks completed"
+                                    aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span
+                                        id="progress-fill"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <dialog class="task-dialog" id="task-dialog" aria-labelledby="dialog-title">
+        <form id="task-form" novalidate>
+            <div class="dialog-header">
+                <div>
+                    <p class="eyebrow">TASK DETAILS</p>
+                    <h2 id="dialog-title">Add a task</h2>
+                </div><button type="button" class="icon-button close-dialog" aria-label="Close">×</button>
+            </div>
+            <input type="hidden" id="task-id">
+            <label class="field-label" for="task-title">Title <span>*</span></label>
+            <input class="text-field" id="task-title" name="title" maxlength="120" required
+                placeholder="What needs to get done?" aria-describedby="title-error">
+            <p class="field-error" id="title-error" role="alert"></p>
+            <label class="field-label" for="task-description">Description</label>
+            <textarea class="text-field" id="task-description" name="description" rows="3" maxlength="500"
+                placeholder="Add a few details"></textarea>
+            <div class="field-grid">
+                <div class="important-field"><span class="field-label">Priority</span><label
+                        class="important-choice"><input type="checkbox" id="task-important" name="important"><span
+                            class="important-checkmark" aria-hidden="true"></span><span>Important</span></label></div>
+                <div><label class="field-label" for="task-category">Category</label><select class="text-field"
+                        id="task-category" name="category">
+                        <option>Work</option>
+                        <option>Personal</option>
+                        <option>Study</option>
+                        <option>Other</option>
+                    </select></div>
+                <div><label class="field-label" for="task-due">Due date</label><input class="text-field" type="date"
+                        id="task-due" name="dueDate"></div>
+                <div><label class="field-label" for="task-status">Status</label><select class="text-field"
+                        id="task-status" name="status">
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                    </select></div>
+            </div>
+            <div class="dialog-actions"><button type="button"
+                    class="secondary-button close-dialog">Cancel</button><button type="submit" class="primary-button"
+                    id="save-task">Add task</button></div>
+        </form>
+    </dialog>
+</body>
+
+</html>
